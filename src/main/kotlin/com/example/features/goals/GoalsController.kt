@@ -1,7 +1,7 @@
 package com.example.features.goals
 
 import com.example.database.model.Goals
-import com.example.database.model.GoalDto
+import com.example.database.model.dto.GoalDto
 
 class GoalsController {
 

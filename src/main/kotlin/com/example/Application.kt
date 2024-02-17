@@ -11,7 +11,6 @@ fun main() {
         url = "jdbc:postgresql://localhost:5432/easytask",
         driver = "org.postgresql.Driver",
         user = "postgres",
-        password = ""
     )
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)

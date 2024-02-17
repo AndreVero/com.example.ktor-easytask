@@ -1,5 +1,6 @@
 package com.example.database.model
 
+import com.example.database.model.dto.GoalDto
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -41,7 +42,6 @@ object Goals : IntIdTable("goals") {
             e.printStackTrace()
             return emptyList()
         }
-
     }
 }
 

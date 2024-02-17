@@ -1,4 +1,4 @@
-package com.example.database.model
+package com.example.database.model.dto
 
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
