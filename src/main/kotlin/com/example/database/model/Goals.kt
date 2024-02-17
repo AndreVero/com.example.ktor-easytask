@@ -1,6 +1,7 @@
 package com.example.database.model
 
 import com.example.database.model.dto.GoalDto
+import com.example.database.model.mapper.toGoalDto
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -16,7 +17,6 @@ object Goals : IntIdTable("goals") {
     fun insert(goalDto: GoalDto) {
         transaction {
             Goals.insert {
-                it[id] = goalDto.id
                 it[title] = goalDto.title
                 it[description] = goalDto.description
                 it[icon] = goalDto.icon
@@ -29,13 +29,7 @@ object Goals : IntIdTable("goals") {
             return transaction {
                 val goalModels = Goal.all()
                 goalModels.toList().map {
-                    GoalDto(
-                        id = it.id.value,
-                        title = it.title,
-                        description = it.description,
-                        icon = it.icon,
-                        tasks = it.tasks.map { task -> task.title }
-                    )
+                    it.toGoalDto()
                 }
             }
         } catch (e: Exception) {
@@ -52,5 +46,7 @@ class Goal(id: EntityID<Int>) : IntEntity(id) {
     var icon by Goals.icon
     val tasks by Task referrersOn Tasks.goal_id
 }
+
+
 
 

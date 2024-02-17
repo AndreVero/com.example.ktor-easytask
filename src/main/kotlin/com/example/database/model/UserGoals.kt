@@ -1,29 +1,36 @@
 package com.example.database.model
 
-import com.example.database.model.dto.UserDto
-import org.jetbrains.exposed.sql.Table
+import com.example.database.model.dto.GoalDto
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object UserGoals : Table("user_goals") {
+object UserGoals : IntIdTable("user_goals") {
     val user = reference("user_id", Users)
     val goal = reference("goal_id", Goals)
-    override val primaryKey = PrimaryKey(user, goal)
 
-    fun insert() {
+    fun insert(token: String, goalId: Int) {
         transaction {
-
+            val user = User.find { Users.token eq  token }.first()
+            val goal = Goal.find { Goals.id eq goalId }.first()
+            user.goals = SizedCollection(user.goals + goal)
         }
     }
 
-    fun fetchUsers(): List<UserDto> {
+    fun fetchUserGoals(token: String): List<GoalDto> {
         try {
             return transaction {
-                val userModels = User.all()
-                userModels.toList().map {
-                    UserDto(
+                val user = User.find { Users.token eq  token }.first()
+
+                val goals = Goal.all()
+                goals.toList().map {
+                    GoalDto(
                         id = it.id.value,
-                        email = it.email,
-                        goals = it.goals.map { goal -> goal.title }
+                        description = it.description,
+                        title = it.title,
+                        isActive = user.goals.contains(it),
+                        icon = it.icon,
+                        tasks = it.tasks.map { task -> task.title }
                     )
                 }
             }

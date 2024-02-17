@@ -11,5 +11,6 @@ class GoalDto(
     val title: String,
     val description: String,
     val icon: String,
-    val tasks: List<String>
+    val tasks: List<String>,
+    val isActive: Boolean
 )
