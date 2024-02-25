@@ -1,13 +1,12 @@
-package com.example.database.model
+package com.example.entities
 
-import com.example.database.model.dto.StatsDto
-import com.example.database.model.mapper.toGoalDto
+import com.example.dtos.StatsDto
+import com.example.dtos.mapper.toGoalDto
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object Stats : IntIdTable("stats") {
@@ -15,18 +14,18 @@ object Stats : IntIdTable("stats") {
     val goal_id = Stats.integer("goal_id")
     val progress = Stats.integer("progress")
 
-    fun updateStats(goalId: Int, token: String, progress: Int) {
+    fun updateStats(goalId: Int, userId: Int, progress: Int) {
         transaction {
-            val user = User.find { Users.token eq token }.first()
-            val stats = Stat.find { (Stats.goal_id eq goalId) and (Stats.user_id eq user.id.value) }.first()
+            val user = User.find { Users.id eq userId }.first()
+            val stats = Stat.find { (goal_id eq goalId) and (user_id eq user.id.value) }.first()
 
             stats.progress = progress
         }
     }
 
-    fun createStats(goalId: Int, token: String) {
+    fun createStats(goalId: Int, userId: Int) {
         transaction {
-            val user = User.find { Users.token eq token }.first()
+            val user = User.find { Users.id eq userId }.first()
 
             Stat.new {
                 progress = 0
@@ -36,12 +35,12 @@ object Stats : IntIdTable("stats") {
         }
     }
 
-    fun getStats(token: String): List<StatsDto> {
+    fun getStats(userId: Int): List<StatsDto> {
         try {
             return transaction {
-                val user = User.find { Users.token eq token }.first()
+                val user = User.find { Users.id eq userId }.first()
                 val goals = Goal.all()
-                val statsModel = Stat.find { Stats.user_id eq user.id.value }
+                val statsModel = Stat.find { user_id eq user.id.value }
                 statsModel.toList().map {
                     StatsDto(
                         progress = it.progress,

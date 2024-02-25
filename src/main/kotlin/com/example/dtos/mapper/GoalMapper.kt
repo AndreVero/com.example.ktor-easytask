@@ -1,7 +1,7 @@
-package com.example.database.model.mapper
+package com.example.dtos.mapper
 
-import com.example.database.model.Goal
-import com.example.database.model.dto.GoalDto
+import com.example.entities.Goal
+import com.example.dtos.GoalDto
 
 fun Goal.toGoalDto() : GoalDto {
     return GoalDto(

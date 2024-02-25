@@ -1,19 +1,19 @@
 package com.example.features.goals
 
-import com.example.database.model.Stats
-import com.example.database.model.dto.StatsDto
+import com.example.entities.Stats
+import com.example.dtos.StatsDto
 
 class StatsController {
 
-    fun getStats(token: String): List<StatsDto> {
-        return Stats.getStats(token)
+    fun getStats(userId: Int): List<StatsDto> {
+        return Stats.getStats(userId)
     }
 
-    fun updateStats(goalId: Int, token: String, progress: Int) {
-        Stats.updateStats(goalId, token, progress)
+    fun updateStats(goalId: Int, userId: Int, progress: Int) {
+        Stats.updateStats(goalId, userId, progress)
     }
 
-    fun createStats(goalId: Int, token: String) {
-        Stats.createStats(goalId, token)
+    fun createStats(goalId: Int, userId: Int) {
+        Stats.createStats(goalId, userId)
     }
 }

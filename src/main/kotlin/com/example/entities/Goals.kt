@@ -1,7 +1,7 @@
-package com.example.database.model
+package com.example.entities
 
-import com.example.database.model.dto.GoalDto
-import com.example.database.model.mapper.toGoalDto
+import com.example.dtos.GoalDto
+import com.example.dtos.mapper.toGoalDto
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

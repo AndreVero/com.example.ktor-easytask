@@ -1,6 +1,9 @@
-package com.example.database.model
+package com.example.entities
 
-import com.example.database.model.dto.GoalDto
+import com.example.dtos.GoalDto
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -9,18 +12,18 @@ object UserGoals : IntIdTable("user_goals") {
     val user = reference("user_id", Users)
     val goal = reference("goal_id", Goals)
 
-    fun insert(token: String, goalId: Int) {
+    fun insert(userId: Int, goalId: Int) {
         transaction {
-            val user = User.find { Users.token eq  token }.first()
+            val user = User.find { Users.id eq userId }.first()
             val goal = Goal.find { Goals.id eq goalId }.first()
             user.goals = SizedCollection(user.goals + goal)
         }
     }
 
-    fun fetchUserGoals(token: String): List<GoalDto> {
+    fun fetchUserGoals(userId: Int): List<GoalDto> {
         try {
             return transaction {
-                val user = User.find { Users.token eq  token }.first()
+                val user = User.find { Users.id eq userId }.first()
 
                 val goals = Goal.all()
                 goals.toList().map {

@@ -1,4 +1,4 @@
-package com.example.security.token
+package com.example.services.security.token
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm

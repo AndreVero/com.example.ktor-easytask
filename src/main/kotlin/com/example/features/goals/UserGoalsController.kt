@@ -1,17 +1,17 @@
 package com.example.features.goals
 
-import com.example.database.model.UserGoals
-import com.example.database.model.dto.GoalDto
+import com.example.entities.UserGoals
+import com.example.dtos.GoalDto
 
 
 class UserGoalsController {
 
-    fun fetchUserGoals(token: String) : List<GoalDto> {
-        return UserGoals.fetchUserGoals(token)
+    fun fetchUserGoals(userId: Int) : List<GoalDto> {
+        return UserGoals.fetchUserGoals(userId)
     }
 
-    fun updateUserName(token: String, goalId: Int) {
-        return UserGoals.insert(token, goalId)
+    fun updateUserName(userId: Int, goalId: Int) {
+        return UserGoals.insert(userId, goalId)
     }
 
 }
