@@ -7,6 +7,7 @@ import com.example.routing.authenticate
 import com.example.routing.getSecretInfo
 import com.example.routing.signIn
 import com.example.routing.signUp
+import com.example.services.auth.AuthService
 import com.example.services.security.hashing.HashingService
 import com.example.services.security.token.TokenConfig
 import com.example.services.security.token.TokenService
@@ -19,11 +20,12 @@ import io.ktor.server.routing.*
 fun Application.configureRouting(
     hashingService: HashingService,
     tokenService: TokenService,
-    tokenConfig: TokenConfig
+    tokenConfig: TokenConfig,
+    authService: AuthService
 ) {
     routing {
-        signIn(hashingService, tokenService, tokenConfig)
-        signUp(hashingService)
+        signIn(hashingService, tokenService, tokenConfig, authService)
+        signUp(hashingService, authService)
         authenticate()
         getSecretInfo()
 

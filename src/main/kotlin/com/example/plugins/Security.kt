@@ -5,7 +5,10 @@ import io.ktor.server.auth.jwt.*
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.example.services.security.token.TokenConfig
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.util.*
 
 fun Application.configureSecurity(tokenConfig: TokenConfig) {
 
