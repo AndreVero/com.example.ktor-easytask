@@ -8,6 +8,7 @@ import com.example.services.security.hashing.HashingService
 import com.example.services.security.hashing.SHA256HashingService
 import com.example.services.security.token.JwtTokenService
 import com.example.services.security.token.TokenConfig
+import com.example.services.stats.StatsServiceImpl
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.engine.*
@@ -34,7 +35,8 @@ fun Application.module() {
     val hashingService = SHA256HashingService()
     val tokenService = JwtTokenService()
     val authService = AuthServiceImpl()
-    val goalService = GoalServiceImpl()
+    val statsService = StatsServiceImpl()
+    val goalService = GoalServiceImpl(statsService)
 
     configureSerialization()
     configureSecurity(tokenConfig = tokenConfig)
@@ -43,6 +45,7 @@ fun Application.module() {
         tokenService = tokenService,
         tokenConfig = tokenConfig,
         authService = authService,
-        goalService = goalService
+        goalService = goalService,
+        statsService = statsService
     )
 }

@@ -1,10 +1,9 @@
-package com.example.dtos
+package com.example.dtos.response
 
-import com.example.dtos.response.GoalResponse
 import kotlinx.serialization.Serializable
 
 @Serializable
-class StatsDto(
+class StatsResponse(
     val progress: Int,
     val goal: GoalResponse,
 )
