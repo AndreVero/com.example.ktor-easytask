@@ -44,7 +44,7 @@ object Stats : IntIdTable("stats") {
                 statsModel.toList().map {
                     StatsDto(
                         progress = it.progress,
-                        goal = goals.find { goal -> goal.id.value == it.goal_id }!!.toGoalResponse()
+                        goal = goals.find { goal -> goal.id.value == it.goal_id }!!.toGoalResponse(false)
                     )
                 }
             }
