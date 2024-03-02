@@ -1,10 +1,10 @@
 package com.example.dtos.mapper
 
 import com.example.entities.Goal
-import com.example.dtos.GoalDto
+import com.example.dtos.response.GoalResponse
 
-fun Goal.toGoalDto() : GoalDto {
-    return GoalDto(
+fun Goal.toGoalResponse() : GoalResponse {
+    return GoalResponse(
         id = this.id.value,
         title = this.title,
         description = this.description,

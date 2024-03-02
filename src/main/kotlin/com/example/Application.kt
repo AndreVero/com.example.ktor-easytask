@@ -3,6 +3,7 @@ package com.example
 import com.example.plugins.*
 import com.example.services.auth.AuthService
 import com.example.services.auth.AuthServiceImpl
+import com.example.services.goal.GoalServiceImpl
 import com.example.services.security.hashing.HashingService
 import com.example.services.security.hashing.SHA256HashingService
 import com.example.services.security.token.JwtTokenService
@@ -33,6 +34,7 @@ fun Application.module() {
     val hashingService = SHA256HashingService()
     val tokenService = JwtTokenService()
     val authService = AuthServiceImpl()
+    val goalService = GoalServiceImpl()
 
     configureSerialization()
     configureSecurity(tokenConfig = tokenConfig)
@@ -40,6 +42,7 @@ fun Application.module() {
         hashingService = hashingService,
         tokenService = tokenService,
         tokenConfig = tokenConfig,
-        authService = authService
+        authService = authService,
+        goalService = goalService
     )
 }

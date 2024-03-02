@@ -1,6 +1,6 @@
 package com.example.entities
 
-import com.example.dtos.GoalDto
+import com.example.dtos.response.GoalResponse
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -20,14 +20,14 @@ object UserGoals : IntIdTable("user_goals") {
         }
     }
 
-    fun fetchUserGoals(userId: Int): List<GoalDto> {
+    fun fetchUserGoals(userId: Int): List<GoalResponse> {
         try {
             return transaction {
                 val user = User.find { Users.id eq userId }.first()
 
                 val goals = Goal.all()
                 goals.toList().map {
-                    GoalDto(
+                    GoalResponse(
                         id = it.id.value,
                         description = it.description,
                         title = it.title,

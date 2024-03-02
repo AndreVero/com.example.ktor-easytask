@@ -1,7 +1,7 @@
 package com.example.entities
 
 import com.example.dtos.StatsDto
-import com.example.dtos.mapper.toGoalDto
+import com.example.dtos.mapper.toGoalResponse
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -44,7 +44,7 @@ object Stats : IntIdTable("stats") {
                 statsModel.toList().map {
                     StatsDto(
                         progress = it.progress,
-                        goal = goals.find { goal -> goal.id.value == it.goal_id }!!.toGoalDto()
+                        goal = goals.find { goal -> goal.id.value == it.goal_id }!!.toGoalResponse()
                     )
                 }
             }

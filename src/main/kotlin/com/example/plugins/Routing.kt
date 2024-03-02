@@ -1,13 +1,9 @@
 package com.example.plugins
 
-import com.example.features.goals.GoalsController
 import com.example.features.goals.StatsController
-import com.example.features.goals.UserGoalsController
-import com.example.routing.authenticate
-import com.example.routing.getSecretInfo
-import com.example.routing.signIn
-import com.example.routing.signUp
+import com.example.routing.*
 import com.example.services.auth.AuthService
+import com.example.services.goal.GoalService
 import com.example.services.security.hashing.HashingService
 import com.example.services.security.token.TokenConfig
 import com.example.services.security.token.TokenService
@@ -21,33 +17,20 @@ fun Application.configureRouting(
     hashingService: HashingService,
     tokenService: TokenService,
     tokenConfig: TokenConfig,
-    authService: AuthService
+    authService: AuthService,
+    goalService: GoalService
 ) {
     routing {
         signIn(hashingService, tokenService, tokenConfig, authService)
         signUp(hashingService, authService)
         authenticate()
         getSecretInfo()
+        goals(goalService)
 
         get("/") {
             call.respondText("Hello World!")
         }
-        get("/goals") {
-            val goalsController = GoalsController()
-            call.respond(goalsController.fetchGoals())
-        }
-        get("/userGoals") {
-            val principal = call.principal<JWTPrincipal>()
-            val userId = principal?.getClaim("userId", Int::class) ?: return@get
-            val goalsController = UserGoalsController()
-            call.respond(goalsController.fetchUserGoals(userId))
-        }
-        post ("/userGoals") {
-            val principal = call.principal<JWTPrincipal>()
-            val userId = principal?.getClaim("userId", Int::class) ?: return@post
-            val goalsController = UserGoalsController()
-            call.respond(goalsController.updateUserName(userId, 2))
-        }
+
         get("/stats") {
             val principal = call.principal<JWTPrincipal>()
             val userId = principal?.getClaim("userId", Int::class) ?: return@get

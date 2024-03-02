@@ -1,12 +1,9 @@
-package com.example.dtos
+package com.example.dtos.response
 
 import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
-import org.jetbrains.exposed.dao.id.EntityID
 
 @Serializable
-class GoalDto(
+class GoalResponse(
     val id: Int,
     val title: String,
     val description: String,
