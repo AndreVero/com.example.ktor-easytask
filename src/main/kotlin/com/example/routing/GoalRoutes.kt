@@ -67,7 +67,8 @@ fun Route.goals(goalService: GoalService) {
             }
 
             try {
-                call.respond(goalService.postUserGoal(request, userId))
+                goalService.postUserGoal(request, userId)
+                call.respond(HttpStatusCode.OK)
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest)
                 e.printStackTrace()

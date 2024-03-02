@@ -9,12 +9,16 @@ import com.example.entities.Goals
 import com.example.entities.User
 import com.example.entities.Users
 import com.example.services.stats.StatsService
+import com.example.services.task.TaskService
 import org.jetbrains.exposed.sql.SizedCollection
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.emptySized
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class GoalServiceImpl(private val statsService: StatsService) : GoalService {
+class GoalServiceImpl(
+    private val statsService: StatsService,
+    private val taskService: TaskService
+) : GoalService {
 
     override fun getGoals(): List<GoalResponse> {
         return transaction {
@@ -53,5 +57,6 @@ class GoalServiceImpl(private val statsService: StatsService) : GoalService {
             user.goals = SizedCollection(user.goals.plus(goal))
         }
         statsService.createStats(request.id, userId)
+        taskService.setFirstTask(userId)
     }
 }

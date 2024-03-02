@@ -7,6 +7,7 @@ import com.example.services.security.hashing.HashingService
 import com.example.services.security.token.TokenConfig
 import com.example.services.security.token.TokenService
 import com.example.services.stats.StatsService
+import com.example.services.task.TaskService
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
@@ -16,7 +17,8 @@ fun Application.configureRouting(
     tokenConfig: TokenConfig,
     authService: AuthService,
     goalService: GoalService,
-    statsService: StatsService
+    statsService: StatsService,
+    taskService: TaskService
 ) {
     routing {
         signIn(hashingService, tokenService, tokenConfig, authService)
@@ -25,5 +27,6 @@ fun Application.configureRouting(
         getSecretInfo()
         goals(goalService)
         stats(statsService)
+        tasks(taskService)
     }
 }

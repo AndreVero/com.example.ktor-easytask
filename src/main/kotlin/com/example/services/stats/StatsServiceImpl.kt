@@ -25,6 +25,8 @@ class StatsServiceImpl : StatsService {
     ) {
         transaction {
             val user = User.find { Users.id eq userId }.first()
+            println("TEST ${user.id.value}")
+            println("TEST ${goalId}")
             val stats = Stat.find { (Stats.goal_id eq goalId) and (Stats.user_id eq user.id.value) }.first()
 
             stats.progress = progressInt

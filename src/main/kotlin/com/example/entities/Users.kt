@@ -17,4 +17,5 @@ class User(id: EntityID<Int>) : IntEntity(id) {
     var username by Users.username
     var salt by Users.salt
     var goals by Goal via UserGoals
+    var tasks by Task via UserTasks
 }
