@@ -10,10 +10,12 @@ import com.example.services.security.token.JwtTokenService
 import com.example.services.security.token.TokenConfig
 import com.example.services.stats.StatsServiceImpl
 import com.example.services.task.TaskServiceImpl
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.cors.routing.*
 import org.jetbrains.exposed.sql.Database
 
 fun main() {
@@ -22,13 +24,13 @@ fun main() {
         driver = "org.postgresql.Driver",
         user = "postgres",
     )
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+    embeddedServer(Netty, port = 5353, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 
 fun Application.module() {
     val tokenConfig = TokenConfig(
-        issuer ="http://0.0.0.0:8080",
+        issuer ="http://0.0.0.0:5353",
         audience = "users",
         expiresIn = 365L * 1000L * 60L * 60L * 24L,
         secret = System.getenv("JWT_SECRET")
@@ -51,4 +53,12 @@ fun Application.module() {
         statsService = statsService,
         taskService = taskService
     )
+    this.install(CORS){
+        allowMethod(HttpMethod.Options)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Get)
+        allowHeader(HttpHeaders.AccessControlAllowOrigin)
+        allowHeader(HttpHeaders.ContentType)
+        anyHost()
+    }
 }
